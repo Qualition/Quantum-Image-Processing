@@ -1,4 +1,4 @@
-from helper_funcs import *
+from helper_funcs_qpix import *
 from qiskit import QuantumCircuit
 
 def cFRQI(a,compression):
