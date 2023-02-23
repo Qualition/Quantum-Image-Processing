@@ -1,7 +1,8 @@
-from helper_funcs_qpix import *
+from helper import *
 from qiskit import QuantumCircuit
 
-def cFRQI(a,compression):
+
+def cFRQI(a, compression):
     a = convertToAngles(a,1) # convert grayscale to angles
     
     n = len(a)
