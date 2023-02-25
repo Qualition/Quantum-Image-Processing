@@ -4,15 +4,15 @@ import numpy as np
 def sfwht(a):
     n = len(a)
     k = ilog2(n)
-    j=1
-    while j<=n:
-        for i in range(0,n):
-            if (i&j) == 0:
-                j1=i+j 
-                x=a[i]
-                y=a[j1]
-                a[i],a[j1]=(x+y)/2,(x-y)/2
-        j*=2
+    j = 1
+    while j < n:
+        for i in range(n):
+            if i & j == 0:
+                j1 = i + j
+                x = a[i]
+                y = a[j1]
+                a[i], a[j1] = (x + y) / 2, (x - y) / 2
+        j *= 2
     return a            
 
 
@@ -20,8 +20,8 @@ def isfwht(a):
     n = len(a)
     k = ilog2(n)
     j=1
-    while j<=n:
-        for i in range(0,n):
+    while j< n:
+        for i in range(n):
             if (i&j) == 0:
                 j1=i+j 
                 x=a[i]
@@ -72,13 +72,15 @@ def invGrayPermutation(a):
 def convertToAngles(a,maxval):
     pi2=2*np.arctan(1)
     scal = pi2/maxval 
-    a = a *scal 
+    a = a *scal
+    return a
 
 
 def convertToGrayscale(a,maxval):
     pi2=2*np.arctan(1)
     scal = maxval/pi2 
-    a = a * scal 
+    a = a * scal
+    return a
 
 
 def countr_zero(n, n_bits=8):
@@ -95,5 +97,4 @@ def countr_zero(n, n_bits=8):
             counts.append(count)
             count = 0
         n >>= 1
-
     return max(counts)

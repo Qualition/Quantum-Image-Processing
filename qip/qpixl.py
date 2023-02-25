@@ -16,24 +16,23 @@ def cFRQI(a, compression):
     a = sorted(a, key=abs)
 
     # set smallest absolute values of a to zero according to compression param
-    cutoff = (compression / 100.0) * n
+    cutoff = int((compression / 100.0) * n)
     for it in idx[:cutoff]:
-        a[it]=0.0
+        a[it] = 0.0
     
     # Construct FRQI circuit
-    circuit = QuantumCircuit(k+1)
+    circuit = QuantumCircuit(k + 1)
     # Hadamard register
-    circuit.h(range(0,k))
+    circuit.h(range(k))
     # Compressed uniformly controlled rotation register
-    ctrl, pc, i = 0
-
+    ctrl, pc, i = 0, 0, 0
     while i < (1<<k):
         # Reset the parity check
         pc = 0
 
         # Add RY gate
-        if  a[i] != 0:
-            circuit.ry(k, a[i])
+        if a[i] != 0:
+            circuit.ry(a[i], k)
 
         # Loop over sequence of consecutive zero angles
         while True:
