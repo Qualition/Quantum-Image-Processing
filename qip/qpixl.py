@@ -12,12 +12,13 @@ def cFRQI(a, compression):
     a = sfwht(a)
     a = grayPermutation(a) 
     
-    idx = list(range(0,n))
-    a = sorted(a, key=abs)
+    # idx = list(range(0,n))
+    # a = sorted(a, key=abs) ## Potential bug, we do not sort values, but only indeces that are then set to 0
+    a_sort_ind = np.argsort(np.abs(a))
 
     # set smallest absolute values of a to zero according to compression param
     cutoff = int((compression / 100.0) * n)
-    for it in idx[:cutoff]:
+    for it in a_sort_ind[:cutoff]:
         a[it] = 0.0
     
     # Construct FRQI circuit
