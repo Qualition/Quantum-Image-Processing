@@ -71,4 +71,4 @@ def cFRQI(a, compression):
             if (pc >> j)  &  1:
                 circuit.cnot(j, k)
                 
-    return circuit
+    return circuit.reverse_bits()
