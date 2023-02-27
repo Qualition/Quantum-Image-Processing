@@ -87,3 +87,39 @@ def countr_zero(n,n_bits=8):
 def preprocess_image(img):
     """Program requires flattened transpose of image array, this returns exactly that"""
     return img.T.flatten()
+
+def readpgm(name):
+    with open(name) as f:
+        lines = f.readlines()
+    # This ignores commented lines
+    for l in list(lines):
+        if l[0] == '#':
+            lines.remove(l)
+    # here,it makes sure it is ASCII format (P2)
+    assert lines[0].strip() == 'P2' 
+    # Converts data to a list of integers
+    data = []
+    for line in lines[1:]:
+        data.extend([int(c) for c in line.split()])
+        
+    return (np.array(data[3:]),(data[1],data[0]),data[2])
+
+def pad_0(img):
+    img = np.array(img)
+    img.flatten()
+    return np.pad(img,(0,nextpow2(len(img))-len(img)))
+
+def decodeQPIXL(state,max_pixel_val=255):
+    np.abs(state)
+    pv = np.zeros(len(state)//2)
+    for i in range(0,len(state),2):
+        pv[i//2]=np.arctan2(state[i+1],state[i])
+    return convertToGrayscale(pv,max_pixel_val)
+
+def reconstruct_img(pic_vec, shape: tuple):
+    ldm = shape[0]
+    holder = np.zeros(shape)
+    for row in range(shape[0]):
+        for col in range(shape[1]):
+            holder[row,col]=pic_vec[row + col * ldm]
+    return holder
