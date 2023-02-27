@@ -2,14 +2,19 @@ from helper import *
 from qiskit import QuantumCircuit
 
 def param_qpixl(a):
-    # a = convertToAngles(a, 1) # convert grayscale to angles
+    """Takes in a parametervector of desired size of image (power of two) and returns a parameterized circuit.
+
+    Args:
+        a (ParameterVector): parametervector object of appropiate size
+
+    Returns:
+        QuantumCIrcuit: Parameterized QuantumCircuit to encode images of parametervector size
+    """
     
     n = len(a)
     k = ilog2(n)
-    # print(a)
 
-    # print(a)
-    # Construct FRQI circuit
+    # Construct parameterized QPIXL circuit
     circuit = QuantumCircuit(k + 1)
     # Hadamard register
     circuit.h(range(k))
@@ -44,6 +49,33 @@ def param_qpixl(a):
     return circuit.reverse_bits()
 
 def encode_image(img):
+    """Encodes an image into parameters for parameterized qpixl 
+
+    Args:
+        img (np.array): flattened image vector
+
+    Returns:
+        np.array: parameters for circuit
+    """
     img = pad_0(img)
     img = convertToAngles(img)
     return grayPermutation(sfwht(img*2))
+
+class examples():
+    def __init__(self) -> None:
+        """SImple holder class with some example images
+        """
+        pass
+    def space():
+         space = np.array([[0,0,0,0,1,1,1,0],
+         [0,0,0,1,1,0,0,0],
+         [1,0,1,1,1,1,1,0],
+         [0,1,1,0,1,1,0,1],
+         [0,0,1,1,1,1,0,1],
+         [0,0,1,1,1,1,0,0],
+         [0,0,1,1,1,1,0,1],
+         [0,1,1,0,1,1,0,1],
+         [1,0,1,1,1,1,1,0],
+         [0,0,0,1,1,0,0,0],
+         [0,0,0,0,1,1,1,0],])
+         return space
