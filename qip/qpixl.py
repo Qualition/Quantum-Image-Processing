@@ -3,14 +3,18 @@ from qiskit import QuantumCircuit
 
 
 def cFRQI(a, compression):
-    """
-    Takes a standard image in a numpy array (so that the matrix looks like
+    """    Takes a standard image in a numpy array (so that the matrix looks like
     the image you want if you picture the pixels) and returns the QPIXL
     compressed FRQI circuit. The compression ratio determines
-    how many gates will be filtered and then cancelled out. 
-    a = numpy array of image
-    compression = number between 0 an 100, where 0 is no compression and 100 is no image
-    returns: qiskit circuit with encoded image
+    how many gates will be filtered and then cancelled out. Made into code from this paper:
+    https://www.nature.com/articles/s41598-022-11024-y
+
+    Args:
+        a (np.array): numpy array of image, must be flattened and padded with zeros up to a power of two
+        compression (float): number between 0 an 100, where 0 is no compression and 100 is no image
+
+    Returns:
+        QuantumCircuit: qiskit circuit that prepared the encoded image
     """
     a = convertToAngles(a) # convert grayscale to angles
     a = preprocess_image(a) # need to flatten the transpose for easier decoding, 

@@ -190,3 +190,22 @@ def reconstruct_img(pic_vec, shape: tuple):
         for col in range(shape[1]):
             holder[row,col]=pic_vec[row + col * ldm]
     return holder
+
+class examples():
+    def __init__(self) -> None:
+        """SImple holder class with some example images
+        """
+        pass
+    def space():
+         space = np.array([[0,0,0,0,1,1,1,0],
+         [0,0,0,1,1,0,0,0],
+         [1,0,1,1,1,1,1,0],
+         [0,1,1,0,1,1,0,1],
+         [0,0,1,1,1,1,0,1],
+         [0,0,1,1,1,1,0,0],
+         [0,0,1,1,1,1,0,1],
+         [0,1,1,0,1,1,0,1],
+         [1,0,1,1,1,1,1,0],
+         [0,0,0,1,1,0,0,0],
+         [0,0,0,0,1,1,1,0],])
+         return space

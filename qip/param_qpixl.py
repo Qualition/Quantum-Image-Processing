@@ -61,21 +61,3 @@ def encode_image(img):
     img = convertToAngles(img)
     return grayPermutation(sfwht(img*2))
 
-class examples():
-    def __init__(self) -> None:
-        """SImple holder class with some example images
-        """
-        pass
-    def space():
-         space = np.array([[0,0,0,0,1,1,1,0],
-         [0,0,0,1,1,0,0,0],
-         [1,0,1,1,1,1,1,0],
-         [0,1,1,0,1,1,0,1],
-         [0,0,1,1,1,1,0,1],
-         [0,0,1,1,1,1,0,0],
-         [0,0,1,1,1,1,0,1],
-         [0,1,1,0,1,1,0,1],
-         [1,0,1,1,1,1,1,0],
-         [0,0,0,1,1,0,0,0],
-         [0,0,0,0,1,1,1,0],])
-         return space
