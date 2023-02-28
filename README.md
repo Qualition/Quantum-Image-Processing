@@ -14,7 +14,7 @@ This is included in two folders, one for a qiskit version and another for a penn
             - single image transforms
             - entangling multiple images
             - Simple RGB images
-        - QNN with QPIXL embedding
+        - QNN with QPIXL embedding for Cancerous cell classification
             - Cancer Dataset with classical autoencoder preconditioning
             - Loading data
             - Defining QNN tree tensor network ansatz
@@ -98,4 +98,27 @@ You can of course think that you can split the different channels and encode eac
 
 ![](figures/RGB.png)
 
-## QNN to Classify a cancer dataset
+## QNN with QPIXL embedding for Cancerous cell classification
+Of course, all is well and fun, and we can visualize some cool quantum operations on an 'inmage state', but obviously the main reason for these embeddings is not to make nice pictures, but to use them to encode data for tasks like classification for QML, or we can use image embedding to encode different types of data - linear depth is a pretty nice embedding ratio after-all! 
+
+### QML with QPIXL embedding with classical autoencoder for image compression
+#### Cancer Dataset with classical autoencoder preconditioning
+So instead of using just a directly image loaded QML, we first pretrain a classical autoencoder and do a transfer learning approach. FOr this toy example we use a pretrained resnet18, but one could imagine refining model parameters to a dataset at the same time as the quantum weights! 
+
+![](figures/QPIXL_network.png)
+
+#### Loading the data
+
+We use the cancer dataset, which we prereduced to be 260x260 in size from around 500x500 classically, and left it to be a 'true' 'false' set, with the boolean value representing the presence of cancer
+
+![](figures/data_eg.png)
+
+This is compressed by the autoencoder and then turned into angles for QPIXL to feed into the Quantum Ansats
+
+#### Defining QNN Tree Tensor Netwrok Ansatz
+
+We then define an ansatz of the form 
+
+![](figures\tree_ansatz.png)
+
+extended to all the 11 qubits of the input from QPIXL, we add additinal RZ rotations after each gate and allow it to output two measurements
