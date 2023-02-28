@@ -138,6 +138,7 @@ Training started:
 Phase: train Epoch: 20/30 Loss: 0.6958 Acc: 0.6254      
 Phase: test   Epoch: 20/30 Loss: 0.6296 Acc: 0.7099       
 ``` 
+The model was pickled mid-training and can be found in the folder ```models/model_QCNN.pickle```, and can be loaded in the ```QPIXL.ipynb``` notebook. 
 
 ### Overall QPIXL summary
 WE made modules that should make it easy to embedd qpixl into any image workflow, including parameterized forms that can be used by optimizers in QNN, optimization and QML tasks for both qiskit and pennylane. WE hope this will make it easier for researchers to quickly use such a powerful embedding strategy within their current workflow without having to re-implement everything (if they use packages such as qiskit and pennylane). Furthermore, we have shown how you can visualize complex quantum transformations of these high-dimensional quantum states in a friendly and fun pictoral way - and perhaps a way to make new art with these machines? Whatever the case, we hope that you find QPIXL and these schemes helpful! 
