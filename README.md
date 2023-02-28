@@ -14,6 +14,7 @@ This is included in two folders, one for a qiskit version and another for a penn
             - single image transforms
             - entangling multiple images
             - Simple RGB images
+            - animation
         - QNN with QPIXL embedding for Cancerous cell classification
             - Cancer Dataset with classical autoencoder preconditioning
             - Loading data with resnet18 autoencoder
@@ -96,6 +97,11 @@ Kind of funky, doesn't make much sense, but maybe you can make something more be
 You can of course think that you can split the different channels and encode each one separately! There are schemes to do this more compactly, but this particular one is very nice for artistic purposes. For example, Mario here has found himself going through a very strange quantum pipeline where 2/3rds of him have been rotated around the Y axis :O
 
 ![](figures/RGB.png)
+
+### Animation
+You can animate the transformation from one statevector representing an image to another smoothely! Ever wondered what that looks like (using linear interpolation for the different angles?) The possibilities are endless - maybe you can use a time evolution operator? Creativity is your only boundary. 
+
+![](figures/transform.gif)
 
 ## QNN with QPIXL embedding for Cancerous cell classification
 Of course, all is well and fun, and we can visualize some cool quantum operations on an 'inmage state', but obviously the main reason for these embeddings is not to make nice pictures, but to use them to encode data for tasks like classification for QML, or we can use image embedding to encode different types of data - linear depth is a pretty nice embedding ratio after-all! 
