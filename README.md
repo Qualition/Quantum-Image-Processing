@@ -13,7 +13,7 @@ Finally, we have also looked at how well standard image embeddings perform in QM
     - Introduction
     - QPIXL (```QPIXL.ipynb```)
         - compression
-        -  Photoshop
+        -  Quantum Photoshop
             - single image transforms
             - entangling multiple images
             - Simple RGB images
@@ -26,6 +26,7 @@ Finally, we have also looked at how well standard image embeddings perform in QM
     - Distributed Amplitude Encoding
         - Description
         - Coupling scheme with dimensionality reduction  
+        - Distributed Quantum Photoshop - filters! 
     - Quantum Autoencoder with Quantum Convolutional Neural Network
         - Autoencoder Architecture
         - Quantum Convolutional Neural Network Results
@@ -194,9 +195,9 @@ Original
 ![](figures/all_filters.png)
 
 
-For applying filters, we select a chunk size of 4, and for each chunk, we apply a 4 x 4 unitary matrix as filter. Given the nature of the matrix, the effects can vary from bands, to blur, to even pixelation. 
+To applying filters, we select a chunk size of 4, and for each chunk, we apply a 4 x 4 unitary matrix as filter. Given the nature of the matrix, the effects can vary from bands, to blur, to even pixelation. 
 
-Due to the constraint posed by the filters having to be unitary, we chose a few filters based on actual quantum operations, and we can use this as a visualization for how different operations can change a system through the image's evolution.
+Due to the constraint posed by the filters having to be unitary, we chose a few filters based on actual quantum operations, and we can use this as a visualization for how different operations can change a system through the image's evolution. By applying different filters to each channel, we can create new filter effects, i.e., brightness which is done by applying pixelated to the color we want to brighten, and bands to the ones we want to keep subtle. Naturally, one channel needs to stay banded for the brightness filter.
 
 # Quantum AutoEncoder and Quantum Convolutional Neural Network
 
