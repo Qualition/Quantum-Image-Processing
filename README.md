@@ -188,12 +188,18 @@ Without PCA
 ### DE Filters
 
 Here we can apply quantum filters as well, here is how they look on a moderately large image than a pure quantum approach as in QPIXL. 
+
 Original
-<img src="figures/flower_1.jpg"  width="50%" height="50%">
+
+<img src="figures/flower_1.jpg"  width="30%" height="30%">
 Filter 1
-<img src="figures/filtered.png"  width="50%" height="50%">
+
+<img src="figures/filtered.png"  width="30%" height="30%">
 Filter 2
-<img src="figures/filter_pixel.png"  width="50%" height="50%">
+
+<img src="figures/filter_pixel.png"  width="30%" height="30%">
+
+
 For applying filters, we select a chunk size of 4, and for each chunk, we apply a 4 x 4 unitary matrix as filter. Given the nature of the matrix, the effects can vary from bands, to blur, to even pixelation. 
 
 Due to the constraint posed by the filters having to be unitary, we chose a few filters based on actual quantum operations, and we can use this as a visualization for how different operations can change a system through the image's evolution.
