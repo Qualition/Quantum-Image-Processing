@@ -125,7 +125,7 @@ So instead of using just a directly loaded image QML, we first pre-train a class
 #### Loading the data with ResNet18
 
 We use the cancer dataset, which we reduced to 260x260 in size from around 500x500 classically, and left it to be a 'true' 'false' set, with the boolean value representing the presence of cancer
-The dataset can be downloaded here or you can request it from us. https://challengedata.ens.fr/participants/challenges/11/
+The dataset can be downloaded here or you can request the modified version from the repository. https://challengedata.ens.fr/participants/challenges/11/
 ![](figures/data_eg.png)
 
 This is compressed by the autoencoder and then turned into angles for QPIXL to feed into the Quantum Ansats
