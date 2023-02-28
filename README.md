@@ -56,11 +56,11 @@ but decomposed into CNOTS and rotations it looks like this!
 
 With QPIXL, the basic embedding, after transforming the image into an angle representation (using arctangent on the pixel values and a walsh hadamard transform) you have this much shorter decomposition! 
 
-![](figures/QPIXL_decomp.png)
+![](figures/qpixl_decomp.png)
 
 but if you set the angles 2-5 to 0, you get something that looks like this
 
-![](figures/QPIXL_decomp_comp.png)
+![](figures/qpixl_decomp_comp.png)
 
 
 ![](figures/test_gif.gif)
