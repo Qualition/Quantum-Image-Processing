@@ -126,7 +126,7 @@ We then define an ansatz of the form
 
 ![](figures/tree_ansatz.png)
 
-extended to all the 11 qubits of the input from QPIXL, we add additinal RZ rotations after each gate and allow it to output two measurements. 
+extended to all the 11 qubits + 1  of the input from QPIXL, we add additinal RZ rotations after each gate and allow it to output two measurements. 
 
 #### running hybrid classical-quantum QNN
 We allowed this to train on a 70-30 split of the dataset using a cross-entropy loss function and the ADAM optimizer, with a stepsize of 4e-4 and 30 epochs. The idea is to optimize the autoencoder and classifier individually at first, getting them to a good initial state and then optimizing both together, sadly we did not manage to get that far, but the results for just optimizing the Quantum part on the ResNet18 comopressed feature vector encoded by QPIXL is very promising!  It reached an accuracy on the training data of 70% after 20 epochs! Alhtough the training accuracy is lower, but this is promising, maybe this is something that can be looked at further and compared to other embedding schemes! :D 
