@@ -13,7 +13,6 @@ This is included in two folders, one for a qiskit version and another for a penn
         -  Photoshop
             - single image transforms
             - entangling multiple images
-            - Animations
             - Simple RGB images
         - QNN with QPIXL embedding
             - Cancer Dataset with classical autoencoder preconditioning
@@ -74,5 +73,29 @@ And a more complex image
 
 ![](figures/world_comp.png)
 
+This lets you see by how much you can compress an image and still retain a high level of detail, obviously finer features disappear the more compression you add, much like traditional JPEG compression. 
+
+
+## Quantum photoshop
+### Single image alteration
+You can imagine that you can now do some quantum operation on this encoded state!!!
+So what do a global rotation do to our image? Below is an exampled for RY rotations applied to each qubit with the same angle.
 
 ![](figures/test_gif.gif)
+
+You can play around in the notebook for way more options! What does a superposition look like? Does seeing the imaginary part after a rotation look different from the real part? The world is your oyster and the code is ready fopr you to explore what quantum operations do to high-dimensional embeddings ina super visual way!
+
+### Entangling multiple images
+
+Of course, you can imagine, what if you load two quantum registers with images? Maybe you can entangle them and see the result. Here, the creation of the world, the tripicht from Bosch is entangled with the transpose of itself: 
+
+![](figures/world_combined.png)
+
+Kind of funky, doesn't make much sense, but maybe you can make something more beautiful?
+
+### RGB Batch encoding
+You can of course think that you can split the different channels and encode each one separately! There are schemes to do this more compactly, but this particular one is very nice for artistic purposes. For example, Mario here has found himself going through a very strange quantum pipeline where 2/3rds of him have been rotated around the Y axis :O
+
+![](figures/RGB.png)
+
+## QNN to Classify a cancer dataset
