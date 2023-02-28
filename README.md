@@ -58,9 +58,21 @@ With QPIXL, the basic embedding, after transforming the image into an angle repr
 
 ![](figures/qpixl_decomp.png)
 
-but if you set the angles 2-5 to 0, you get something that looks like this
+## Compression
+If you set the angles 2-6 to 0 (or if they are already 0), you get something that looks like this! The 0 angle rotations are the identity, and 'disappear', and the remaining the pairs of CNOTS cancelling out :O
 
 ![](figures/qpixl_decomp_comp.png)
+
+
+So you can greatly compress the depth up to some percentage (treshold at which you set angles to 0). Whaty does this look like? See the image below 
+
+For a simple image that is hopefully familiar 
+
+![](figures/aliens_comp.png)
+
+And a more complex image
+
+![](figures/world_comp.png)
 
 
 ![](figures/test_gif.gif)
