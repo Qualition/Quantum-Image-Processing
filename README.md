@@ -124,7 +124,7 @@ This is compressed by the autoencoder and then turned into angles for QPIXL to f
 
 We then define an ansatz of the form 
 
-![](figures\tree_ansatz.png)
+![](figures/tree_ansatz.png)
 
 extended to all the 11 qubits of the input from QPIXL, we add additinal RZ rotations after each gate and allow it to output two measurements. 
 
