@@ -1,10 +1,13 @@
-# Quantum Image Processing
-A series of python modules for implementing Quantum Image and Signal Processing protocols for image encoding, classification, and alteration using Quantum Machine Learning.
+# Quantum Image Processing - embeddings from visualization to classification
+A series of python modules for implementing Quantum Image and Signal Processing protocols for image encoding, alteration and classification.
 
 
-The readme goes through several embedding schemes we have come up with that are either good for simulating (simulator friendly encodings) and NISQ friendly hardware friendly. 
-The main feature is that we have implemented an embedding in qiskit for the FRQI-QPIXL framework  (Amankwah et al., May 2022, https://www.nature.com/articles/s41598-022-11024-y ). 
-This is included in two folders, one for a qiskit version and another for a pennylane version.  ```qpixl.py``` for the full version with compression, and  ```param_qpixl.py``` contains the parameterized version that can be used to generate a NISQ friendly image feature map for QML amongst other things.
+The readme goes through several embedding schemes we have come up with that are either simulator friendly encodings or NISQ friendly as well as implementing them in both artistic and scientific settings.
+The main feature is that we have implemented an embedding for the recent **FRQI-QPIXL** framework  (Amankwah et al., May 2022, https://www.nature.com/articles/s41598-022-11024-y ). This is included in two folders, one Qiskit (`QPIXL_qiskit/`) and the other for Pennylane (`QPIXL_pennylane/`).  In both folders ```qpixl.py``` contains a function that generates the full QPIXL embedding with compression on both platforms, and  ```param_qpixl.py``` contains the parameterized version that can be used to generate a NISQ friendly image feature map for QML amongst other things. In pennylane this can also compress, but in qiskit it cannot due to limitations on how the parameter vector is processed. This QPIXL embedding is linear in depth with respect to the pixel number, which makes it NISQ friendly. The circuit is also quick to prepare classically. The notebook describing how it can be used is in `Exploring_QPIXL.ipynb`, which can be explored at the reader's leasure - it includes interactive demos, examples and a uses a hybrid quantum classical network for classifiying a cancer dataset. 
+
+Then we have also developed a method for 'chunked' embedding where the image is split up and recombined into a compressed statevector. This method, which we call **Distributed Amplitude Encoding** is much easier on classical compute resources and allows for images as large as 4K to be processed with quantum operations being applied. The results are contained in the `Encoder_Distributed.ipynb`, where you can see how you chunk, normalize, process and stitch the picture back together. It can even handle RGB images. 
+
+Finally, we have also looked at how well standard image embeddings perform in QML using a full quantum workflow - that is to say, direct quantum embedding, quantum autoencoder and QNN classifier, and these can be seen in `Autoencoder-QCNN.ipynb`. Here the fashion-MINST data is used to benchmark performance. In future, we hope to compare different embedding schemes and the performance of the same QNN with different embeddings of the same dataset, which should be very interesting.
 
 - Contents
     - Introduction
@@ -20,6 +23,13 @@ This is included in two folders, one for a qiskit version and another for a penn
             - Loading data with resnet18 autoencoder
             - Defining QNN tree tensor network ansatz
             - running hybrid classical-quantum QNN
+    - Distributed Amplitude Encoding
+        - Description
+        - Coupling scheme with dimensionality reduction  
+    - Quantum Autoencoder with Quantum Convolutional Neural Network
+        - Autoencoder Architecture
+        - Quantum Convolutional Neural Network Results
+
 
 # QPIXL
 
@@ -142,3 +152,75 @@ The model was pickled mid-training and can be found in the folder ```models/mode
 
 ### Overall QPIXL summary
 WE made modules that should make it easy to embedd qpixl into any image workflow, including parameterized forms that can be used by optimizers in QNN, optimization and QML tasks for both qiskit and pennylane. WE hope this will make it easier for researchers to quickly use such a powerful embedding strategy within their current workflow without having to re-implement everything (if they use packages such as qiskit and pennylane). Furthermore, we have shown how you can visualize complex quantum transformations of these high-dimensional quantum states in a friendly and fun pictoral way - and perhaps a way to make new art with these machines? Whatever the case, we hope that you find QPIXL and these schemes helpful! 
+
+
+# Distributed Amplitude Encoding (DE)
+There are two approaches to Quantum Computing, namely Quantum-inspired and Quantum Mechanical, where the latter is known as "true" quantum computing. This paradigm was explored in the passage above under QPIXL encoding protocol, which delved into a new manner of implementing FRQI with a linear scalability. As it can be observed, even with a linear scalability, which allows us to have a significantly lower depth compared to RFV and other Amplitude Encoding protocols, we are still unable to encode large images efficiently without use of a preprocessing step, which was the Autoencoder. Hence in this passage, we will look at a new approach which though may not be reliazable with actual hardware, has promise for a much faster simulation. 
+
+The Distributed Encoder, as the name suggests, relies on a "Divide and Conquer" approach, where the image vector (image after being flattened), can be split into chunks of size n, and we can encode each chunk separately using RFV, hence we can encode images as large as 3,840 x 2,160 pixels in a matter of seconds, with log2(n) qubits, and a shallow depth. The process is as follows :
+
+- Import image
+- Break image into smaller chunks
+- Encode each chunk separately
+- Simulate and extract the statevector for each chunk
+- Multiply each chunk statevector by the recorded avg chunk ratio to maintain the original ratio
+- And classically append
+![image](https://user-images.githubusercontent.com/73689800/221870046-06d47c06-2dc3-4a13-90f4-d47d721d1f8a.png)
+
+By using this approach, imagining a 32 x 32 image, instead of needing a RFV PQC with a depth of 2037 and width of 10, we can use 16 RFV PQCs with depth 121 and width of 6, which allows us to have a much faster simulation. This approach shows itself best as we go higher in resolution (Anything larger than 50 x 50), and thus in circuit volume, and we can see this is perhaps the only manner we can perform the simulated encoding.
+
+Below you can see the decoded 4K Ghost in all his glory with RGB colors, where we split the initial image into three Red, Green, and Blue channels, encode each, and decode them by using RGB_Decoder.
+![download](https://user-images.githubusercontent.com/73689800/221864333-8793fb2d-9330-4fae-97d4-5210e249813c.png)
+
+### DE Coupled with Dimensionality Reduction
+By adding a dimensionality reduction step such as PCA or the autoencoder we used in QPIXL, we can speed up the simulation even further, whilst maintaining almost perfect fidelity. Assume we are using PCA with 300 components. This allows us to reduce a 1,080 x 1,920 to 1,080 x 300, and we can then encode this, and apply the inverse transformation on the statevector extracted to reconstruct the original image with almost no loss in fidelity. Assuming we are using chunks of size 64, this allows us to encode the same image but with 2,160 circuits as compared to 32,400 circuits. Quite a substantial difference!
+
+Below you can see the two images side by side, with and without applying PCA :
+
+With PCA    
+
+![download](https://user-images.githubusercontent.com/73689800/221865071-d3ca761b-c705-4a31-b439-2a3bf93527fd.png)    
+
+Without PCA
+
+![download](https://user-images.githubusercontent.com/73689800/221865342-b50f5c95-3876-491e-924d-88303c43b693.png)
+
+# Quantum AutoEncoder and Quantum Convolutional Neural Network
+
+![QAE](https://user-images.githubusercontent.com/80008587/221870996-408f052a-2060-4a9f-8d79-229451cda961.png)
+Source: https://arxiv.org/abs/1612.02806
+
+The goal of this is to build an Quantum Autoencoder, a circuit which can compress a quantum state onto a smaller amount of qubits, while retaining the information from the initial state.
+We give a digital image compressor example to demonstrate the capabilities of such a system to compress different quantum states, as well as the ability to compress images of labels 0 and 1 of the fashion MNIST dataset.
+The Architecture of the Quantum AutoEncoder will be a Raw Feature Vector, a trainable Real Amplitudes ansatz and Swap Test. After that, we will take advantage of the QAE to classify ther images by a Quantum Convolutional Neural Network
+
+## QAE Architecture
+
+As stated before, the architecture will be a feature map, a trainable ansatz (we will use Real Amplitudes due to it uses only real numbers) and a swap test between the latent and trash space.
+Latent space will consist in 4 qubits (first four) and trash space in 6 (5 to 10).
+
+![image](https://user-images.githubusercontent.com/80008587/221895714-f63d57c8-4cb1-4f77-9e27-a91fbfea637d.png)
+
+We are going to train it with 200 images of the fashion MNIST Dataset with labels 0 and 1. This is the decoded output of the AutoEncoder:
+
+![image](https://user-images.githubusercontent.com/80008587/221873817-e55cd655-c9fe-4ed7-a130-d66c9a294327.png)
+
+As far as we can see, we achieve good fidelity results by compressing an 32x32 image represented in 10 qubits to 4 qubits.
+
+## Quantum Convolutional Neural Network
+
+The Neural netowrk will consist in two convolutional layers and two pooling layers as we can see in the image.
+
+![image](https://user-images.githubusercontent.com/80008587/221897049-0c8426f2-8732-4f46-a9d3-7dd38c53dd45.png)
+
+We are going to compose this network to the encoder part of the QAE and then classify by obtaining the Z expectation value on the fourth qubit. Measuring this value we obtain 1 or -1, which corresponds to the classes.
+
+![image](https://user-images.githubusercontent.com/80008587/221897608-785e307a-733d-4d2e-a14b-ea5e466bf180.png)
+
+Also, we are going to bind the optimal parameters obtained in the QAE to the real amplitude ansatz.
+
+We can see the result of the classification in this image:
+
+![image](https://user-images.githubusercontent.com/80008587/221909685-c8fa6f95-eb62-4421-b42d-1b6d85c358ec.png)
+
+64% for binary classification. Not bad for a fully quantum technique!
