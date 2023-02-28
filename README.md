@@ -16,9 +16,8 @@ This is included in two folders, one for a qiskit version and another for a penn
             - Simple RGB images
         - QNN with QPIXL embedding for Cancerous cell classification
             - Cancer Dataset with classical autoencoder preconditioning
-            - Loading data
+            - Loading data with resnet18 autoencoder
             - Defining QNN tree tensor network ansatz
-            - Defining resnet18 autoencoder
             - running hybrid classical-quantum QNN
 
 # QPIXL
@@ -107,7 +106,7 @@ So instead of using just a directly image loaded QML, we first pretrain a classi
 
 ![](figures/QPIXL_network.png)
 
-#### Loading the data
+#### Loading the data with ResNet18
 
 We use the cancer dataset, which we prereduced to be 260x260 in size from around 500x500 classically, and left it to be a 'true' 'false' set, with the boolean value representing the presence of cancer
 
@@ -121,4 +120,18 @@ We then define an ansatz of the form
 
 ![](figures\tree_ansatz.png)
 
-extended to all the 11 qubits of the input from QPIXL, we add additinal RZ rotations after each gate and allow it to output two measurements
+extended to all the 11 qubits of the input from QPIXL, we add additinal RZ rotations after each gate and allow it to output two measurements. 
+
+#### running hybrid classical-quantum QNN
+We allowed this to train on a 70-30 split of the dataset using a cross-entropy loss function and the ADAM optimizer, with a stepsize of 4e-4 and 30 epochs. The idea is to optimize the autoencoder and classifier individually at first, getting them to a good initial state and then optimizing both together, sadly we did not manage to get that far, but the results for just optimizing the Quantum part on the ResNet18 comopressed feature vector encoded by QPIXL is very promising!  It reached an accuracy on the training data of 70% after 20 epochs! Alhtough the training accuracy is lower, but this is promising, maybe this is something that can be looked at further and compared to other embedding schemes! :D 
+
+```
+Training started:
+...
+...
+Phase: train Epoch: 20/30 Loss: 0.6958 Acc: 0.6254      
+Phase: test   Epoch: 20/30 Loss: 0.6296 Acc: 0.7099       
+``` 
+
+### Overall QPIXL summary
+WE made modules that should make it easy to embedd qpixl into any image workflow, including parameterized forms that can be used by optimizers in QNN, optimization and QML tasks for both qiskit and pennylane. WE hope this will make it easier for researchers to quickly use such a powerful embedding strategy within their current workflow without having to re-implement everything (if they use packages such as qiskit and pennylane). Furthermore, we have shown how you can visualize complex quantum transformations of these high-dimensional quantum states in a friendly and fun pictoral way - and perhaps a way to make new art with these machines? Whatever the case, we hope that you find QPIXL and these schemes helpful! 
