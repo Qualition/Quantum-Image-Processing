@@ -191,13 +191,7 @@ Here we can apply quantum filters as well, here is how they look on a moderately
 
 Original
 
-<img src="figures/flower_1.jpg"  width="30%" height="30%">
-Filter 1
-
-<img src="figures/filtered.png"  width="30%" height="30%">
-Filter 2
-
-<img src="figures/filter_pixel.png"  width="30%" height="30%">
+![](figures/all_filters.png)
 
 
 For applying filters, we select a chunk size of 4, and for each chunk, we apply a 4 x 4 unitary matrix as filter. Given the nature of the matrix, the effects can vary from bands, to blur, to even pixelation. 
